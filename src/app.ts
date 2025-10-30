@@ -1,3 +1,5 @@
 import {launchServer} from "./server.js";
 
-launchServer();
+launchServer().then(() => {
+    console.log("Done")
+});

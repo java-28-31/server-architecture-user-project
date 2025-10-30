@@ -43,7 +43,7 @@ export class UserController {
         const urlObj = new URL(req.url!, `http://${req.headers.host}`);
         const id = urlObj.searchParams.get('userId')
         if(id){
-            const result = this.userService.removeUser(+id);
+            const result = this.userService.getUserById(+id);
             if(result)  responseJson(res, 200, result);
             else responseText(res, 404, `User with id ${id} not found`)
         } else responseText(res, 400, "No request params found")
