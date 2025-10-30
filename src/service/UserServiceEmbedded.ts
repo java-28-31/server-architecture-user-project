@@ -15,15 +15,23 @@ export class UserServiceEmbedded implements UserService{
         return [...this.users];
     }
 
-    getUserById(userId: number): User {
-        throw "";
+    getUserById(userId: number) {
+        const user = this.users.find(u => u.id === userId)
+            return user;
     }
 
-    removeUser(userId: number): User {
-        throw "";
+    removeUser(userId: number) {
+        const index = this.users.findIndex(u => u.id === userId);
+        return index === -1 ? null : this.users.splice(index, 1)[0];
     }
 
     updateUser(userId: number, newName: string): boolean {
+        const index = this.users.findIndex(u => u.id === userId);
+
+        if(index !== -1) {
+            this.users[index].userName = newName;
+            return true;
+        }
         return false;
     }
 

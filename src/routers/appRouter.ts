@@ -1,11 +1,13 @@
 import {IncomingMessage, ServerResponse} from "node:http";
 import {userControllerEmbedded} from "../controllers/UserController.js";
+import {responseText} from "../utils/tools.js";
+import {myLogger} from "../utils/logger.js";
 
 export const appRouter =
     async (req: IncomingMessage, res: ServerResponse) => {
         const {url, method} = req;
+        myLogger.log('Got new request ' + method + url)
         const parsedUrl = new URL(url!, `http://${req.headers.host}`);
-        console.log(parsedUrl)
         const controller = userControllerEmbedded;
 
         switch (parsedUrl.pathname + method) {
@@ -17,9 +19,21 @@ export const appRouter =
                 controller.getAllUsers(req,res);
                 break;
             }
+            case "/api/users" + "DELETE":{
+                controller.removeUser(req, res);
+                break;
+            }
+            case "/api/user" + "GET":{
+                controller.getUserById(req, res);
+                break;
+            }
+            case "/api/user" + "PATCH":{
+                controller.updateUser(req, res);
+                break;
+            }
+
             default: {
-                res.writeHead(404, {"Content-Type": "text/plain"});
-                res.end("Page not found")
+                responseText(res, 404, "Page not found")
             }
         }
     }
