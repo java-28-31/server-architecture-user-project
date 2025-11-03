@@ -12,6 +12,7 @@ export  const launchServer = async () => {
         else if (req.url?.startsWith("/logger")) await loggerRouter(req, res);
     })
     await userServiceEmbedded.restoreDataFromFile();
+    console.log("After restoring")
     server.listen(PORT, () => {
         myLogger.toFile("Server starts")
         console.log(`Server runs at http://localhost:${PORT}`);
